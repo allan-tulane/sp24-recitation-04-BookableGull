@@ -9,7 +9,7 @@ def run_map_reduce(map_f, reduce_f, docs):
     # done. do not change me.
     """    
     The main map reduce logic.
-    
+  
     Params:
       map_f......the mapping function
       reduce_f...the reduce function
@@ -36,6 +36,15 @@ def word_count_map(doc):
     >>> word_count_map('i am sam i am')
     [('i', 1), ('am', 1), ('sam', 1), ('i', 1), ('am', 1)]
     """
+    newlist = []
+    for word in doc.split():
+        newlist.append((word, 1))
+        
+    return newlist
+        
+
+    
+
     ###TODO
     
     
@@ -54,6 +63,8 @@ def word_count_reduce(group):
     NOTE: you should use call the `reduce` function here.
     """
     ###TODO
+
+    return  ((group[0], len(group[1])))
     
     
 
@@ -122,5 +133,18 @@ def sentiment_map(doc,
     >>> sentiment_map('it was a terrible waste of time')
     [('negative', 1), ('negative', 1)]
     """
-    ###TODO
+    newlist = []
+    x = run_map_reduce(word_count_map,word_count_reduce,doc.split())
+    for key, value in x:
+        if key in pos_terms:
+            newlist.append(("positive", value))
+        elif key in neg_terms:
+            newlist.append(("negative", value))
+    return newlist
 
+        
+        
+
+    ###TODO
+#print(run_map_reduce(word_count_map, word_count_reduce, ['i am sam i am', 'sam is ham']))
+#print(sentiment_map('it was a terrible waste of time'))
